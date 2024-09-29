@@ -1,34 +1,39 @@
-import { useState } from 'react';
-import { Image, StyleSheet, Platform, Text, View, Button, TextInput } from 'react-native';
+import { useState } from "react";
+import { Button, Text, TextInput, View } from "react-native";
 
 export default function Index() {
 
-
   const [counter, setCounter] = useState(0);
   const [mynumber, setMynumber] = useState("");
-  const [errormessages, setErrormessage] = useState("");
+  const [errormessage, setErrormessage] = useState("");
+
 
   function dosomeplus() {
-    
+
     const innumb = Number(mynumber);
 
     if(isNaN(innumb)) {
-      // Inte siffra   
-      setErrormessage("Du skrev fel!!!");
-    }  else {
+      // Inte siffra
+      setErrormessage("Du skrev fel!!!!");
+    } else {
       setErrormessage("");
-      setCounter(counter + Number(mynumber));
+      setCounter(counter + innumb);
 
-
-    if (counter >= 10) {
-      setCounter(0);
+      if (counter > 10) {
+        setCounter(0);
+      }
     }
-  }
-  }
-  function dosomeminus() {
-    setCounter(counter - 1);
 
-    if (counter <= 0) {
+    
+  }
+
+  function dosomeminus() {
+
+    const innumb = Number(mynumber);
+
+    setCounter(counter - innumb);
+
+    if (counter < 0) {
       setCounter(0);
     }
   }
@@ -44,34 +49,37 @@ export default function Index() {
       }}
     >
 
-
       <Text>{counter}</Text>
-      { errormessages != "" &&
-      <Text style= {{borderWidth : 3, width: 200, height: 80}}> { errormessages }</Text>
-        }
 
+      { errormessage != "" &&
+        <Text style={{ borderWidth: 3, width: 200, height: 80 }}>{ errormessage }</Text>
+      }
+      
 
-      <TextInput onChangeText={ setMynumber }
-       value= {mynumber } 
-       style={{ borderWidth : 1, width: 100 }}
-       />
+      <TextInput 
+        onChangeText={ setMynumber} 
+        value={ mynumber } 
+        style={{ borderWidth: 1, width: 100 }}
+      />
 
       <Button
         onPress={dosomeplus}
         title="Plus"
       />
 
-
+      { counter > 0 &&
+        <Button
+          onPress={dosomeminus}
+          title="Minus"
+        />
+      }
+      
 
       <Button
-        onPress={dosomeminus}
-        title="Minus"
-      />
-
-      <Button
-        onPress={() => {setCounter(0), setErrormessage(""), setMynumber("")}}
+        onPress={ () => { setCounter(0); } }
         title="Reset"
       />
+
 
 
     </View>
